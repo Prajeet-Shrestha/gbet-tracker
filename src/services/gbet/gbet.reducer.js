@@ -5,7 +5,7 @@ let initialStats = {
   loadingSummary: true,
   loadingTransfer: true,
   loadingHolder: true,
-
+  gbetTranfersSummary: { minted: 0, burnt: 0, nameChanged: 0 },
   fetchSummaryFail: null,
   fetchHolderFail: null,
   fetchTransferFail: null,
@@ -77,7 +77,27 @@ const fetchGBETHoldersFail = (state, action) => {
   });
 };
 // NOTE: Reducer functions for Holder of GBET --------- END --------------
+// NOTE: Reducer functions for Transfer Summary of GBET --------- START --------------
+const fetchGBETTransferSummaryStart = (state, action) => {
+  return updateObject(state, {
+    loadingTransfer: true,
+  });
+};
 
+const fetchGBETTransferSummarySuccess = (state, action) => {
+  return updateObject(state, {
+    loadingTransfer: false,
+    gbetTranfersSummary: action.data,
+  });
+};
+
+const fetchGBETTransferSummaryFail = (state, action) => {
+  return updateObject(state, {
+    loadingTransfer: false,
+    fetchTransferFail: action.error,
+  });
+};
+// NOTE: Reducer functions for Transfer Summary of GBET --------- END --------------
 export const gbetReducer = (state = { ...initialStats }, action) => {
   switch (action.type) {
     case actionTypes.FETCH_GBET_SUMMARY_PENDING:
@@ -98,6 +118,12 @@ export const gbetReducer = (state = { ...initialStats }, action) => {
       return fetchGBETHoldersSuccess(state, action);
     case actionTypes.FETCH_GBET_HOLDERS_REJECTED:
       return fetchGBETHoldersFail(state, action);
+    case actionTypes.FETCH_GBET_TRANSFER_SUMMARY_PENDING:
+      return fetchGBETTransferSummaryStart(state, action);
+    case actionTypes.FETCH_GBET_TRANSFER_SUMMARY_FULFILLED:
+      return fetchGBETTransferSummarySuccess(state, action);
+    case actionTypes.FETCH_GBET_TRANSFER_SUMMARY_REJECTED:
+      return fetchGBETTransferSummaryFail(state, action);
     default:
       return state;
   }

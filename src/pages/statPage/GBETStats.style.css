@@ -47,6 +47,7 @@ h1 {
 .tokenName {
   color: rgba(0, 0, 0, 0.5);
   margin-left: 5px;
+  font-size: 12px;
 }
 
 .showMore {
@@ -69,13 +70,13 @@ h1 {
   width: 100%;
 }
 
-table {
+.holders-Summary table {
   width: 100%;
   border-radius: 3px;
   border: 1px solid #d9d9d9;
 }
 
-thead {
+.holders-Summary thead {
   z-index: inherit;
   /* padding: 0; */
   border: 0;
@@ -84,10 +85,10 @@ thead {
   font: inherit;
   font-size: 100%;
 }
-tr {
+.holders-Summary tr {
   height: 40px;
 }
-th {
+.holders-Summary th {
   background: #f5f5f5;
   text-align: center;
   color: grey;
@@ -97,17 +98,17 @@ th {
   border-bottom: 1px solid #d9d9d9;
   border-left: 1px solid #d9d9d9;
 }
-th:first-child {
+.holders-Summary th:first-child {
   width: 84px;
 }
-th {
+.holders-Summary th {
   vertical-align: middle;
   font-weight: 400;
 }
-td:first-child {
+.holders-Summary td:first-child {
   text-align: center;
 }
-td {
+.holders-Summary td {
   font-size: 14px;
 
   border-bottom: 1px solid #d9d9d9;
@@ -115,4 +116,13 @@ td {
   padding: 11px 20px 5px;
   vertical-align: middle;
   position: relative;
+}
+
+.calculating {
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+.iconUp {
+  font-size: 14px;
 }

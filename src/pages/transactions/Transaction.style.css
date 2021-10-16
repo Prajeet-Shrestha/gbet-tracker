@@ -1,0 +1,52 @@
+@import url('../statPage/GBETStats.style.css');
+.transaction-Summary table {
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #d9d9d9;
+}
+
+.transaction-Summary thead {
+  z-index: inherit;
+  /* padding: 0; */
+  border: 0;
+  margin: 0;
+  vertical-align: initial;
+  font: inherit;
+  font-size: 100%;
+}
+.transaction-Summary tr {
+  height: 30px;
+}
+.transaction-Summary th {
+  background: #f5f5f5;
+  text-align: center;
+  color: grey;
+  font-size: 12px;
+
+  align-items: center;
+  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+}
+.transaction-Summary th:first-child {
+  width: 84px;
+}
+.transaction-Summary th {
+  vertical-align: middle;
+  font-weight: 400;
+}
+.transaction-Summary td:first-child {
+  text-align: center;
+  overflow: hidden;
+  max-width: 210px !important;
+}
+.transaction-Summary td {
+  font-size: 12px;
+  max-width: 210px !important;
+
+  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid #e6e6e6;
+  overflow: hidden;
+
+  vertical-align: middle;
+  /* position: relative; */
+}
