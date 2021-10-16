@@ -166,7 +166,7 @@ export class Transaction extends Component {
       );
     }
     return (
-      <div className='gStat-container'>
+      <div className='transaction-container'>
         <h1>GBET Transactions Summary</h1>
         {GBETTransactionsComp}
         <h1>GBET Transactions Table</h1>

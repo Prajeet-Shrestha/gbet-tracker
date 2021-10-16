@@ -50,3 +50,7 @@
   vertical-align: middle;
   /* position: relative; */
 }
+
+.transaction-container {
+  width: 100%;
+}

@@ -13,6 +13,7 @@
 }
 .container {
   max-width: 1200px;
+  min-width: 1200px !important;
   width: 1200px;
   display: flex;
   justify-content: space-between;
@@ -66,13 +67,5 @@
     font-family: 'Neutrif Pro', sans-serif;
     color: #646b7b;
     width: 100%;
-  }
-
-  .bodyContainer {
-    margin: 0 auto;
-    min-width: 600px;
-    max-width: 80%;
-    padding: 0 10px;
-    padding-bottom: 40px;
   }
 }
