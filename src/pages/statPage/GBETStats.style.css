@@ -1,0 +1,118 @@
+.gStat-container {
+  width: 100%;
+}
+.g-Summary {
+  width: fit-content;
+  justify-content: space-between;
+}
+
+.statBox {
+  width: fit-content;
+  border: 1px solid var(--dividerGrey);
+  border-radius: var(--borderRadius);
+  text-align: left;
+  /* border: 1px solid #d9d9d9; */
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  margin: 5px 0;
+  white-space: nowrap;
+}
+
+.statBox .gs-title {
+  height: 50px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  background: #f0f2f5;
+}
+
+.statBox .value {
+  height: 50px;
+  width: 370px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+h1 {
+  font-weight: bold;
+  margin-top: 28px;
+  margin-bottom: 18px;
+}
+
+.tokenName {
+  color: rgba(0, 0, 0, 0.5);
+  margin-left: 5px;
+}
+
+.showMore {
+  cursor: pointer;
+  margin-top: 20px;
+  color: rgba(0, 0, 0, 0.5);
+  height: 20px;
+  display: flex;
+  align-items: center;
+  font-weight: lighter;
+  font-size: 14px;
+}
+.moreIcon {
+  height: 20px;
+  width: 20px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.holders-Summary {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid #d9d9d9;
+}
+
+thead {
+  z-index: inherit;
+  /* padding: 0; */
+  border: 0;
+  margin: 0;
+  vertical-align: initial;
+  font: inherit;
+  font-size: 100%;
+}
+tr {
+  height: 40px;
+}
+th {
+  background: #f5f5f5;
+  text-align: center;
+  color: grey;
+  font-size: 12px;
+
+  align-items: center;
+  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+}
+th:first-child {
+  width: 84px;
+}
+th {
+  vertical-align: middle;
+  font-weight: 400;
+}
+td:first-child {
+  text-align: center;
+}
+td {
+  font-size: 12px;
+
+  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid #e6e6e6;
+  padding: 11px 20px 5px;
+  vertical-align: middle;
+  position: relative;
+}
