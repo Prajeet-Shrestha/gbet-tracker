@@ -1,12 +1,12 @@
-import TimeAgo from 'javascript-time-ago';
-
-// English.
-import en from 'javascript-time-ago/locale/en.json';
-function checkTransferState(fromAddr) {
+function checkTransferState(fromAddr, toAddr) {
   if (fromAddr == 'hx0000000000000000000000000000000000000000') {
     return 'MINTED';
   } else {
-    return 'BURNT';
+    if (toAddr == 'hx0000000000000000000000000000000000000000') {
+      return 'BURNT';
+    } else {
+      return 'TRANSFER';
+    }
   }
 }
 
@@ -14,6 +14,7 @@ export function processTransferToStates(txList, prevList = null) {
   let transferData = {
     minted: 0.0,
     burnt: 0.0,
+    transfer: 0.0,
     nameChanged: 0.0,
     statChanged: 0,
   };
@@ -21,6 +22,7 @@ export function processTransferToStates(txList, prevList = null) {
     transferData = {
       minted: prevList.minted,
       burnt: prevList.burnt,
+      transfer: prevList.transfer,
       nameChanged: prevList.nameChanged,
       statChanged: prevList.statChanged,
     };
@@ -28,20 +30,18 @@ export function processTransferToStates(txList, prevList = null) {
 
   try {
     txList.map((data, index) => {
-      switch (checkTransferState(data.fromAddr)) {
+      switch (checkTransferState(data.fromAddr, data.toAddr)) {
         case 'BURNT':
           transferData.burnt += parseFloat(data.quantity);
-          // transferData.burnt += parseFloat(data.fee); //? cost fee for service?
-          if (data.quantity == '360') {
+          if (data.quantity == '360' || data.quantity == '432') {
             transferData.nameChanged += parseFloat(data.quantity);
-            // transferData.nameChanged += parseFloat(data.fee);
           }
           break;
         case 'MINTED':
-          let afterTax = parseFloat(data.quantity);
-          //  - parseFloat(data.fee);
-          transferData.minted += afterTax;
-          // transferData.burnt += parseFloat(data.fee); //? cost fee for minting?
+          transferData.minted += parseFloat(data.quantity);
+          break;
+        case 'TRANSFER':
+          transferData.transfer += parseFloat(data.quantity);
           break;
       }
     });

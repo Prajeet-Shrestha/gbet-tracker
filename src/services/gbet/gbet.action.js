@@ -201,11 +201,6 @@ export const fetchGBETTransferSummary = () => {
           dispatch(fetchGBETTransferSummaryFail(error));
         });
     }
-    // axios
-    //   .get(url)
-    //   .then((response) => {
-    //     dispatch(fetchGBETTransferSummarySuccess(response.data));
-    //   })
   };
 };
 

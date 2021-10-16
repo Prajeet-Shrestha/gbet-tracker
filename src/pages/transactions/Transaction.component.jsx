@@ -79,7 +79,10 @@ export class Transaction extends Component {
           <div className='statBox'>
             <div className='gs-title'>GBET Minted</div>
             <div className='value'>
-              {this.props.GBETTransferSummary.minted} <span className='tokenName'> GBET</span>
+              {parseFloat(this.props.GBETTransferSummary.minted).toLocaleString('en-US', {
+                maximumFractionDigits: 20,
+              })}
+              <span className='tokenName'> GBET</span> <span className='emoji burnt'>🌿</span>
               {this.props.GBETTransferSummary.isLoading ? (
                 <span className='iconUp'>
                   <svg
@@ -99,7 +102,10 @@ export class Transaction extends Component {
           <div className='statBox'>
             <div className='gs-title'>GBET Burnt</div>
             <div className='value'>
-              {this.props.GBETTransferSummary.burnt} <span className='tokenName'> GBET</span>
+              {parseFloat(this.props.GBETTransferSummary.burnt).toLocaleString('en-US', {
+                maximumFractionDigits: 20,
+              })}
+              <span className='tokenName'> GBET </span> <span className='emoji burnt'>🔥</span>
               {this.props.GBETTransferSummary.isLoading ? (
                 <span className='iconUp'>
                   <svg
@@ -119,7 +125,35 @@ export class Transaction extends Component {
           <div className='statBox'>
             <div className='gs-title'>Net GBET</div>
             <div className='value'>
-              {this.props.GBETTransferSummary.minted - this.props.GBETTransferSummary.burnt}
+              {parseFloat(this.props.GBETTransferSummary.minted - this.props.GBETTransferSummary.burnt).toLocaleString(
+                'en-US',
+                {
+                  maximumFractionDigits: 20,
+                }
+              )}
+              <span className='tokenName'> GBET</span>
+              {this.props.GBETTransferSummary.isLoading ? (
+                <span className='iconUp'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    height='18px'
+                    viewBox='0 0 24 24'
+                    width='18px'
+                    fill='rgb(9, 189, 9)'
+                  >
+                    <path d='M0 0h24v24H0z' fill='none' />
+                    <path d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z' />
+                  </svg>
+                </span>
+              ) : null}
+            </div>
+          </div>
+          <div className='statBox'>
+            <div className='gs-title'>Transfer GBET</div>
+            <div className='value'>
+              {parseFloat(this.props.GBETTransferSummary.transfer).toLocaleString('en-US', {
+                maximumFractionDigits: 20,
+              })}
               <span className='tokenName'> GBET</span>
               {this.props.GBETTransferSummary.isLoading ? (
                 <span className='iconUp'>
@@ -140,7 +174,10 @@ export class Transaction extends Component {
           <div className='statBox'>
             <div className='gs-title'>Name Changed</div>
             <div className='value'>
-              {this.props.GBETTransferSummary.nameChanged} <span className='tokenName'> GBET</span>
+              {parseFloat(this.props.GBETTransferSummary.nameChanged).toLocaleString('en-US', {
+                maximumFractionDigits: 20,
+              })}
+              <span className='tokenName'> GBET</span>
               {this.props.GBETTransferSummary.isLoading ? (
                 <span className='iconUp'>
                   <svg
@@ -165,6 +202,13 @@ export class Transaction extends Component {
       GBETTransferTableComp = (
         <div className='transaction-Summary'>
           <div>
+            <p className='searchFound'>
+              A Total of{' '}
+              <span style={{ color: '#04a6bd', fontWeight: 'bold' }}>
+                {this.props.GBETTransfertotalSize} token transfer(s)
+              </span>{' '}
+              found.
+            </p>
             <table>
               <thead>
                 <tr>
@@ -216,11 +260,19 @@ export class Transaction extends Component {
                       </span>
                     </td>
                     <td>
-                      <span>{quantity}</span>
+                      <span>
+                        {parseFloat(quantity).toLocaleString('en-US', {
+                          maximumFractionDigits: 20,
+                        })}
+                      </span>
                       <span className='tokenName'> GBET</span>
                     </td>
                     <td>
-                      <span>{fee}</span>
+                      <span>
+                        {parseFloat(fee).toLocaleString('en-US', {
+                          maximumFractionDigits: 20,
+                        })}
+                      </span>
                       <em> ICX</em>
                     </td>
                   </tr>
@@ -280,6 +332,8 @@ const mapStateToProps = (state) => {
     GBETTransferSummaryLoading: state.gbetReducer.loadingTransferSummary,
     GBETTransfer: state.gbetReducer.gbetTranfers.data,
     GBETTransfertotalPage: state.gbetReducer.gbetTranfers.totalPage,
+    GBETTransfertotalSize: state.gbetReducer.gbetTranfers.totalSize,
+
     GBETTransferSummary: state.gbetReducer.gbetTranfersSummary,
   };
 };

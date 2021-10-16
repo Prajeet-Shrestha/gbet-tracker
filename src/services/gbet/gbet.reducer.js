@@ -9,11 +9,16 @@ let initialStats = {
   gbetTranfersSummary: { minted: 0, burnt: 0, nameChanged: 0 },
   fetchSummaryFail: null,
   fetchHolderFail: null,
+  paginationHoldersTotalSize: {
+    totalSize: 0,
+    totalPage: 0,
+  },
   fetchTransferFail: null,
   gbetSummary: null,
   gbetTranfers: {
     data: [],
     totalPage: 0,
+    totalSize: 0,
   },
   gbetHolders: null,
 };
@@ -50,8 +55,9 @@ const fetchGBETTransferSuccess = (state, action) => {
   return updateObject(state, {
     loadingTransfer: false,
     gbetTranfers: {
-      totalPage: Math.ceil(parseInt(action.data.totalSize) / 100),
+      totalPage: Math.ceil(parseInt(action.data.totalSize) / 20),
       data: action.data.data,
+      totalSize: action.data.totalSize,
     },
   });
 };
@@ -74,6 +80,10 @@ const fetchGBETHoldersSuccess = (state, action) => {
   return updateObject(state, {
     loadingHolder: false,
     gbetHolders: action.data.data,
+    paginationHoldersTotalSize: {
+      totalSize: action.data.totalSize,
+      totalPage: Math.ceil(parseInt(action.data.totalSize) / 20),
+    },
   });
 };
 

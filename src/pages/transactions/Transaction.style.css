@@ -78,3 +78,7 @@
 .transaction-Summary td.tdTo {
   border-left: none !important;
 }
+.searchFound {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
