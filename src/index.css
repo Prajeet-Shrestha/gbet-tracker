@@ -96,3 +96,14 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 1200px) {
+  html,
+  body {
+    width: fit-content;
+    height: 100vh;
+    padding: 0%;
+    margin: 0%;
+    /* overflow: hidden; */
+  }
+}

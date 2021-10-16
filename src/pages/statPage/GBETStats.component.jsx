@@ -122,8 +122,8 @@ export class GBETStats extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.props.GBETHolders.map(({ rank, address, quantity, percentage }) => (
-                  <tr>
+                {this.props.GBETHolders.map(({ rank, address, quantity, percentage }, index) => (
+                  <tr key={index}>
                     <td>{rank}</td>
                     <td>
                       <span>
