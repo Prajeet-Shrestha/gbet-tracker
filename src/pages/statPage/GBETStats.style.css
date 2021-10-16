@@ -126,3 +126,14 @@ h1 {
 .iconUp {
   font-size: 14px;
 }
+.gs-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gs-title p {
+  text-align: bottom;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.3);
+}

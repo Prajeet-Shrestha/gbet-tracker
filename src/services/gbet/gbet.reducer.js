@@ -4,13 +4,17 @@ import * as actionTypes from '../../redux/action.type';
 let initialStats = {
   loadingSummary: true,
   loadingTransfer: true,
+  loadingTransferSummary: true,
   loadingHolder: true,
   gbetTranfersSummary: { minted: 0, burnt: 0, nameChanged: 0 },
   fetchSummaryFail: null,
   fetchHolderFail: null,
   fetchTransferFail: null,
   gbetSummary: null,
-  gbetTranfers: null,
+  gbetTranfers: {
+    data: [],
+    totalPage: 0,
+  },
   gbetHolders: null,
 };
 // NOTE: Reducer functions for summary of GBET --------- START --------------
@@ -45,7 +49,10 @@ const fetchGBETTransferStart = (state, action) => {
 const fetchGBETTransferSuccess = (state, action) => {
   return updateObject(state, {
     loadingTransfer: false,
-    gbetTranfers: action.data.data,
+    gbetTranfers: {
+      totalPage: Math.ceil(parseInt(action.data.totalSize) / 100),
+      data: action.data.data,
+    },
   });
 };
 
@@ -80,20 +87,20 @@ const fetchGBETHoldersFail = (state, action) => {
 // NOTE: Reducer functions for Transfer Summary of GBET --------- START --------------
 const fetchGBETTransferSummaryStart = (state, action) => {
   return updateObject(state, {
-    loadingTransfer: true,
+    loadingTransferSummary: true,
   });
 };
 
 const fetchGBETTransferSummarySuccess = (state, action) => {
   return updateObject(state, {
-    loadingTransfer: false,
+    loadingTransferSummary: false,
     gbetTranfersSummary: action.data,
   });
 };
 
 const fetchGBETTransferSummaryFail = (state, action) => {
   return updateObject(state, {
-    loadingTransfer: false,
+    loadingTransferSummary: false,
     fetchTransferFail: action.error,
   });
 };

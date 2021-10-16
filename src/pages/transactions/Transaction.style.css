@@ -42,15 +42,39 @@
 .transaction-Summary td {
   font-size: 12px;
   max-width: 210px !important;
-
+  padding-left: 10px;
   border-bottom: 1px solid #d9d9d9;
   border-left: 1px solid #e6e6e6;
-  overflow: hidden;
+  /* overflow: hidden; */
 
   vertical-align: middle;
-  /* position: relative; */
+  position: relative;
 }
 
 .transaction-container {
   width: 100%;
+}
+
+.pagination {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.pagination .btn {
+  cursor: pointer;
+}
+
+.toFromIcon {
+  width: 18px;
+  height: 18px;
+  right: -10px;
+  z-index: 9;
+  position: absolute;
+}
+
+.transaction-Summary td.tdTo {
+  border-left: none !important;
 }

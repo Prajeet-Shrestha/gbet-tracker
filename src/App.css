@@ -66,6 +66,9 @@
   .App {
     font-family: 'Neutrif Pro', sans-serif;
     color: #646b7b;
-    width: 100%;
+    min-width: 1180px;
+    min-width: 1200px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }

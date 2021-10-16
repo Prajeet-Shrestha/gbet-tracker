@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './GBETStats.style.css';
+import Skeleton from '../../components/skeleton/Skeleton.component';
 import {
   fetchGBETSummary,
   fetchGBETTransfer,
@@ -8,8 +9,17 @@ import {
   fetchGBETTransferSummary,
 } from '../../services/gbet/gbet.action';
 import { NavLink } from 'react-router-dom';
+import { timeAgo } from '../../services/utils/utilis';
 
 export class GBETStats extends Component {
+  constructor(props) {
+    super(props);
+    var startDate = new Date();
+    this.state = {
+      startTime: new Date(),
+    };
+  }
+
   componentDidMount() {
     console.log('hey');
     this.props.onFetchSummary();
@@ -20,14 +30,68 @@ export class GBETStats extends Component {
       this.props.onFetchTransferSummary();
     }
   }
+  ageString(time) {
+    return timeAgo(time);
+  }
   render() {
     // console.log('summary:', this.props.GBETSummaryLoading);
     // console.log('trans:', this.props.GBETTranferLoading);
     // console.log('holder:', this.props.GBETHoldersLoading);
 
-    var GBETSummaryComp = null;
-    var GBETTransactionsComp = null;
-    var GBETHolderComp = null;
+    var GBETSummaryComp = (
+      <div>
+        <div style={{ display: 'flex' }}>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+        </div>
+        <div style={{ display: 'flex', marginTop: '5px' }}>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+        </div>
+        <div style={{ display: 'flex', marginTop: '5px' }}>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+        </div>
+      </div>
+    );
+
+    var GBETTransactionsComp = (
+      <div>
+        <div style={{ display: 'flex' }}>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+        </div>
+        <div style={{ display: 'flex', marginTop: '5px' }}>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+          <span>
+            <Skeleton width={590} height={50} />
+          </span>
+        </div>
+      </div>
+    );
+    var GBETHolderComp = (
+      <div>
+        <Skeleton width={1200} height={600} />
+      </div>
+    );
     if (!this.props.GBETSummaryLoading) {
       // console.log(`Total Pages Of Tracs: ${Math.ceil(parseInt(this.props.GBETSummary.transfers) / 100)}`);
       GBETSummaryComp = (
@@ -229,11 +293,29 @@ export class GBETStats extends Component {
     }
     return (
       <div className='gStat-container'>
-        <h1>GangstaBet Token (GBET)</h1>
+        <div className='gs-title'>
+          <h1>GangstaBet Token (GBET)</h1>
+          <p>
+            Last Updated:
+            {this.ageString(this.state.startTime)}
+          </p>
+        </div>
         {GBETSummaryComp}
-        <h1>GBET Transactions</h1>
+        <div className='gs-title'>
+          <h1>GBET Transactions</h1>
+          <p>
+            Last Updated:
+            {this.ageString(this.state.startTime)}
+          </p>
+        </div>
         {GBETTransactionsComp}
-        <h1>GBET Holders</h1>
+        <div className='gs-title'>
+          <h1>GBET Holders</h1>
+          <p>
+            Last Updated:
+            {this.ageString(this.state.startTime)}
+          </p>
+        </div>
         {GBETHolderComp}
       </div>
     );
@@ -245,7 +327,8 @@ const mapStateToProps = (state) => {
     GBETSummary: state.gbetReducer.gbetSummary,
     GBETSummaryLoading: state.gbetReducer.loadingSummary,
     GBETTranferLoading: state.gbetReducer.loadingSummary,
-    GBETTransfer: state.gbetReducer.gbetTranfers,
+    GBETTransfer: state.gbetReducer.gbetTranfers.data,
+    GBETTransferSummaryLoading: state.gbetReducer.loadingTransferSummary,
     GBETHoldersLoading: state.gbetReducer.loadingHolder,
     GBETHolders: state.gbetReducer.gbetHolders,
     GBETTransferSummary: state.gbetReducer.gbetTranfersSummary,
