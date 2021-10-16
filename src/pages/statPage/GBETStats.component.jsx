@@ -332,19 +332,20 @@ export class GBETStats extends Component {
               </tbody>
             </table>
           </div>
-
-          <div className='showMore'>
-            <span> Show more </span>
-            <span className='moreIcon'>
-              <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
-                <path
-                  d='M7.49992 4.16687V5.83354H12.9916L3.33325 15.4919L4.50825 16.6669L14.1666 7.00854V12.5002H15.8333V4.16687H7.49992Z'
-                  fill='black'
-                  fillOpacity='0.5'
-                />
-              </svg>
-            </span>
-          </div>
+          <NavLink to='/holders'>
+            <div className='showMore'>
+              <span> Show more </span>
+              <span className='moreIcon'>
+                <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                  <path
+                    d='M7.49992 4.16687V5.83354H12.9916L3.33325 15.4919L4.50825 16.6669L14.1666 7.00854V12.5002H15.8333V4.16687H7.49992Z'
+                    fill='black'
+                    fillOpacity='0.5'
+                  />
+                </svg>
+              </span>
+            </div>
+          </NavLink>
         </div>
       );
     }
