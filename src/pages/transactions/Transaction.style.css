@@ -82,3 +82,15 @@
   font-size: 12px;
   margin-bottom: 10px;
 }
+
+.chartContainer {
+  display: flex;
+}
+.chart {
+  display: inline-block;
+  margin-right: 100px;
+}
+.chart .burntVsMint {
+  width: 300px;
+  height: 300px;
+}

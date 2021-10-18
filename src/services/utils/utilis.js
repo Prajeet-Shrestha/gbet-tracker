@@ -14,14 +14,20 @@ export function processTransferToStates(txList, prevList = null) {
   let transferData = {
     minted: 0.0,
     burnt: 0.0,
+    noOfMintedTransaction: 0,
+    noOfBurntTransaction: 0,
+    noOfTransferTransaction: 0,
     transfer: 0.0,
     nameChanged: 0.0,
-    statChanged: 0,
+    statChanged: 0.0,
   };
   if (prevList) {
     transferData = {
       minted: prevList.minted,
       burnt: prevList.burnt,
+      noOfMintedTransaction: prevList.noOfMintedTransaction,
+      noOfBurntTransaction: prevList.noOfBurntTransaction,
+      noOfTransferTransaction: prevList.noOfTransferTransaction,
       transfer: prevList.transfer,
       nameChanged: prevList.nameChanged,
       statChanged: prevList.statChanged,
@@ -35,13 +41,18 @@ export function processTransferToStates(txList, prevList = null) {
           transferData.burnt += parseFloat(data.quantity);
           if (data.quantity == '360' || data.quantity == '432') {
             transferData.nameChanged += parseFloat(data.quantity);
+          } else {
+            transferData.statChanged += parseFloat(data.quantity);
           }
+          transferData.noOfBurntTransaction += 1;
           break;
         case 'MINTED':
           transferData.minted += parseFloat(data.quantity);
+          transferData.noOfMintedTransaction += 1;
           break;
         case 'TRANSFER':
           transferData.transfer += parseFloat(data.quantity);
+          transferData.noOfTransferTransaction += 1;
           break;
       }
     });

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './GBETStats.style.css';
 import Skeleton from '../../components/skeleton/Skeleton.component';
+import StatBox from '../../components/statBox/StatBox.component';
+
 import {
   fetchGBETSummary,
   fetchGBETTransfer,
@@ -25,6 +27,10 @@ export class GBETStats extends Component {
     this.props.onFetchSummary();
 
     setInterval(() => {
+      var startDate = new Date();
+      this.setState({
+        startTime: startDate,
+      });
       this.props.onFetchSummary();
     }, 180000);
     this.props.onFetchTransfer(1, 100);
@@ -33,6 +39,10 @@ export class GBETStats extends Component {
     if (this.props.GBETTransferSummary.minted == 0) {
       this.props.onFetchTransferSummary();
       setInterval(() => {
+        var startDate = new Date();
+        this.setState({
+          startTime: startDate,
+        });
         this.props.onFetchTransferSummary();
       }, 180000);
     }
@@ -105,171 +115,92 @@ export class GBETStats extends Component {
       console.log(totalSupply);
       GBETSummaryComp = (
         <div className='g-Summary'>
-          <div className='statBox'>
-            <div className='gs-title'>Total Supply</div>
-            <div className='value'>
-              {formatted.toString() + '.' + totalSupply[1]}
-              <span className='tokenName'> GBET</span>
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Contract</div>
-            <div className='value'>
-              {' '}
-              <a href='https://tracker.icon.foundation/contract/cx6139a27c15f1653471ffba0b4b88dc15de7e3267'>
-                {this.props.GBETSummary.contract}
-              </a>
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Decimals</div>
-            <div className='value'>{this.props.GBETSummary.decimals}</div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Total Transfers</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETSummary.transfers).toLocaleString('en-US', {
-                maximumFractionDigits: 1,
-              })}
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Price</div>
-            <div className='value'>{this.props.GBETSummary.price ? this.props.GBETSummary.price : '-'}</div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Holders</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETSummary.holders).toLocaleString('en-US', {
-                maximumFractionDigits: this.props.GBETSummary.decimals,
-              })}
-              <span className='tokenName'> Address(es)</span>{' '}
-            </div>
-          </div>
+          <StatBox title={'Total Supply'} value={formatted.toString() + '.' + totalSupply[1]} unitName={'GBET'} />
+          <StatBox
+            title={'Contract'}
+            value={this.props.GBETSummary.contract}
+            isValueLink={true}
+            link={'https://tracker.icon.foundation/contract/cx6139a27c15f1653471ffba0b4b88dc15de7e3267'}
+            unitName={''}
+          />
+          <StatBox title={'Decimals'} value={this.props.GBETSummary.decimals} unitName={''} />
+          <StatBox
+            title={'Total Transfers'}
+            value={parseFloat(this.props.GBETSummary.transfers).toLocaleString('en-US', {
+              maximumFractionDigits: 1,
+            })}
+            unitName={''}
+          />
+          <StatBox
+            title={'Price'}
+            value={this.props.GBETSummary.price ? this.props.GBETSummary.price : '-'}
+            unitName={''}
+          />
+          <StatBox
+            title={'Holders'}
+            value={parseFloat(this.props.GBETSummary.holders).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            unitName={'Address(es)'}
+          />
         </div>
       );
     }
     if (!this.props.GBETTranferLoading) {
       GBETTransactionsComp = (
         <div className='g-Summary'>
-          <div className='statBox'>
-            <div className='gs-title'>GBET Minted</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETTransferSummary.minted).toLocaleString('en-US', {
-                maximumFractionDigits: this.props.GBETSummary.decimals,
-              })}
-              <span className='tokenName'> GBET</span> <span className='emoji burnt'>🌿</span>
-              {this.props.GBETTransferSummary.isLoading ? (
-                <span className='iconUp'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='18px'
-                    viewBox='0 0 24 24'
-                    width='18px'
-                    fill='rgb(9, 189, 9)'
-                  >
-                    <path d='M0 0h24v24H0z' fill='none' />
-                    <path d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z' />
-                  </svg>
-                </span>
-              ) : null}
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>GBET Burnt</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETTransferSummary.burnt).toLocaleString('en-US', {
-                maximumFractionDigits: this.props.GBETSummary.decimals,
-              })}
-              <span className='tokenName'> GBET </span> <span className='emoji burnt'>🔥</span>
-              {this.props.GBETTransferSummary.isLoading ? (
-                <span className='iconUp'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='18px'
-                    viewBox='0 0 24 24'
-                    width='18px'
-                    fill='rgb(9, 189, 9)'
-                  >
-                    <path d='M0 0h24v24H0z' fill='none' />
-                    <path d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z' />
-                  </svg>
-                </span>
-              ) : null}
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Net GBET</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETTransferSummary.minted - this.props.GBETTransferSummary.burnt).toLocaleString(
-                'en-US',
-                {
-                  maximumFractionDigits: this.props.GBETSummary.decimals,
-                }
-              )}
-              <span className='tokenName'> GBET</span>
-              {this.props.GBETTransferSummary.isLoading ? (
-                <span className='iconUp'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='18px'
-                    viewBox='0 0 24 24'
-                    width='18px'
-                    fill='rgb(9, 189, 9)'
-                  >
-                    <path d='M0 0h24v24H0z' fill='none' />
-                    <path d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z' />
-                  </svg>
-                </span>
-              ) : null}
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Transfer GBET</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETTransferSummary.transfer).toLocaleString('en-US', {
-                maximumFractionDigits: this.props.GBETSummary.decimals,
-              })}
-              <span className='tokenName'> GBET</span>
-              {this.props.GBETTransferSummary.isLoading ? (
-                <span className='iconUp'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='18px'
-                    viewBox='0 0 24 24'
-                    width='18px'
-                    fill='rgb(9, 189, 9)'
-                  >
-                    <path d='M0 0h24v24H0z' fill='none' />
-                    <path d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z' />
-                  </svg>
-                </span>
-              ) : null}
-            </div>
-          </div>
-          <div className='statBox'>
-            <div className='gs-title'>Name Changed</div>
-            <div className='value'>
-              {parseFloat(this.props.GBETTransferSummary.nameChanged).toLocaleString('en-US', {
-                maximumFractionDigits: this.props.GBETSummary.decimals,
-              })}
-              <span className='tokenName'> GBET</span>
-              {this.props.GBETTransferSummary.isLoading ? (
-                <span className='iconUp'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='18px'
-                    viewBox='0 0 24 24'
-                    width='18px'
-                    fill='rgb(9, 189, 9)'
-                  >
-                    <path d='M0 0h24v24H0z' fill='none' />
-                    <path d='M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z' />
-                  </svg>
-                </span>
-              ) : null}
-            </div>
-          </div>
+          <StatBox
+            title={'GBET Minted'}
+            value={parseFloat(this.props.GBETTransferSummary.minted).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            mintedEmoji={true}
+            isLoading={this.props.GBETTransferSummary.isLoading}
+            unitName={'GBET'}
+          />
+          <StatBox
+            title={'GBET Burnt'}
+            value={parseFloat(this.props.GBETTransferSummary.burnt).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            burntEmoji={true}
+            isLoading={this.props.GBETTransferSummary.isLoading}
+            unitName={'GBET'}
+          />
+          <StatBox
+            title={'Net GBET'}
+            value={parseFloat(
+              this.props.GBETTransferSummary.minted - this.props.GBETTransferSummary.burnt
+            ).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            isLoading={this.props.GBETTransferSummary.isLoading}
+            unitName={'GBET'}
+          />
+          <StatBox
+            title={'Transfer GBET'}
+            value={parseFloat(this.props.GBETTransferSummary.transfer).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            isLoading={this.props.GBETTransferSummary.isLoading}
+            unitName={'GBET'}
+          />
+          <StatBox
+            title={'Name Changed'}
+            value={parseFloat(this.props.GBETTransferSummary.nameChanged).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            isLoading={this.props.GBETTransferSummary.isLoading}
+            unitName={'GBET'}
+          />
+          <StatBox
+            title={'Stats Changed'}
+            value={parseFloat(this.props.GBETTransferSummary.statChanged).toLocaleString('en-US', {
+              maximumFractionDigits: this.props.GBETSummary.decimals,
+            })}
+            isLoading={this.props.GBETTransferSummary.isLoading}
+            unitName={'GBET'}
+          />
           <NavLink to='/transfers'>
             <div className='showMore'>
               <span> Show more </span>
@@ -351,7 +282,7 @@ export class GBETStats extends Component {
     }
     return (
       <div className='gStat-container'>
-        <div className='gs-title'>
+        <div className='gs-mainTitle'>
           <h1>GangstaBet Token (GBET)</h1>
           <p>
             Last Updated:
@@ -359,7 +290,7 @@ export class GBETStats extends Component {
           </p>
         </div>
         {GBETSummaryComp}
-        <div className='gs-title'>
+        <div className='gs-mainTitle'>
           <h1>GBET Transactions</h1>
           <p>
             Last Updated:
@@ -367,7 +298,7 @@ export class GBETStats extends Component {
           </p>
         </div>
         {GBETTransactionsComp}
-        <div className='gs-title'>
+        <div className='gs-mainTitle'>
           <h1>GBET Holders</h1>
           <p>
             Last Updated:
