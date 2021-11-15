@@ -5,6 +5,7 @@ import Skeleton from '../../components/skeleton/Skeleton.component';
 
 import { fetchGBETHolders } from '../../services/gbet/gbet.action';
 import { timeAgo } from '../../services/utils/utilis';
+import { Helmet } from 'react-helmet';
 
 export class THolders extends Component {
   constructor(props) {
@@ -133,6 +134,32 @@ export class THolders extends Component {
     }
     return (
       <div className='transaction-container'>
+        <Helmet>
+          <title>Holders - GBET Tracker</title>
+          <meta name='title' content='Holders - GBET Tracker' />
+          <meta
+            name='description'
+            content='GangstaBet is a collection of 5,555 unique digital collectibles where people can participate to evolve their characters for eventual permanence on the blockchain.'
+          />
+
+          <meta property='og:type' content='website' />
+          <meta property='og:url' content='https://gbet-tracker.vercel.app/holders' />
+          <meta property='og:title' content='Holders - GBET Tracker' />
+          <meta
+            property='og:description'
+            content='GangstaBet is a collection of 5,555 unique digital collectibles where people can participate to evolve their characters for eventual permanence on the blockchain.'
+          />
+          <meta property='og:image' content='' />
+
+          <meta property='twitter:card' content='summary_large_image' />
+          <meta property='twitter:url' content='https://gbet-tracker.vercel.app/holders' />
+          <meta property='twitter:title' content='Holders - GBET Tracker' />
+          <meta
+            property='twitter:description'
+            content='GangstaBet is a collection of 5,555 unique digital collectibles where people can participate to evolve their characters for eventual permanence on the blockchain.'
+          />
+          <meta property='twitter:image' content='' />
+        </Helmet>
         <h1>GBET Holders Table</h1>
         {GBETHoldersTableComp}
       </div>

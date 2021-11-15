@@ -8,7 +8,7 @@ import BarChart from '../../components/charts/bar/Bar.chart';
 
 import { fetchGBETTransfer, fetchGBETTransferSummary } from '../../services/gbet/gbet.action';
 import { timeAgo } from '../../services/utils/utilis';
-
+import { Helmet } from 'react-helmet';
 export class Transaction extends Component {
   constructor(props) {
     super(props);
@@ -264,6 +264,32 @@ export class Transaction extends Component {
       100 * (parseFloat(this.props.GBETTransferSummary.nameChanged) / parseFloat(this.props.GBETTransferSummary.burnt));
     return (
       <div className='transaction-container'>
+        <Helmet>
+          <title>Transaction - GBET Tracker</title>
+          <meta name='title' content='Transaction - GBET Tracker' />
+          <meta
+            name='description'
+            content='GangstaBet is a collection of 5,555 unique digital collectibles where people can participate to evolve their characters for eventual permanence on the blockchain.'
+          />
+
+          <meta property='og:type' content='website' />
+          <meta property='og:url' content='https://gbet-tracker.vercel.app/transfers' />
+          <meta property='og:title' content='Transaction - GBET Tracker' />
+          <meta
+            property='og:description'
+            content='GangstaBet is a collection of 5,555 unique digital collectibles where people can participate to evolve their characters for eventual permanence on the blockchain.'
+          />
+          <meta property='og:image' content='' />
+
+          <meta property='twitter:card' content='summary_large_image' />
+          <meta property='twitter:url' content='https://gbet-tracker.vercel.app/transfers' />
+          <meta property='twitter:title' content='Transaction - GBET Tracker' />
+          <meta
+            property='twitter:description'
+            content='GangstaBet is a collection of 5,555 unique digital collectibles where people can participate to evolve their characters for eventual permanence on the blockchain.'
+          />
+          <meta property='twitter:image' content='' />
+        </Helmet>
         <h1>GBET Transactions Summary</h1>
         {GBETTransactionsComp}
         <div className='chartContainer'>
