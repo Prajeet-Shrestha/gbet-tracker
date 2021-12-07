@@ -4,7 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 function Pie(props) {
   let labels = props.labels;
   let data = props.data;
-  console.log(labels, data);
+  // console.log(labels, data);
   return (
     <div>
       <Doughnut

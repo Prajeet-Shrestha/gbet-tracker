@@ -9,7 +9,16 @@ function checkTransferState(fromAddr, toAddr) {
     }
   }
 }
+var getMonth = function (idx) {
+  var objDate = new Date();
+  objDate.setDate(1);
+  objDate.setMonth(idx - 1);
 
+  var locale = 'en-us',
+    month = objDate.toLocaleString(locale, { month: 'short' });
+
+  return month;
+};
 export function processTransferToStates(txList, prevList = null) {
   let transferData = {
     minted: 0.0,
@@ -20,6 +29,8 @@ export function processTransferToStates(txList, prevList = null) {
     transfer: 0.0,
     nameChanged: 0.0,
     statChanged: 0.0,
+    dailyStats: {},
+    perMonthStats: {},
   };
   if (prevList) {
     transferData = {
@@ -31,11 +42,18 @@ export function processTransferToStates(txList, prevList = null) {
       transfer: prevList.transfer,
       nameChanged: prevList.nameChanged,
       statChanged: prevList.statChanged,
+      dailyStats: prevList.dailyStats,
+      perMonthStats: prevList.perMonthStats,
     };
   }
 
   try {
     txList.map((data, index) => {
+      const dateString = `${new Date(data.age).getUTCFullYear()}_${new Date(data.age).getUTCMonth() + 1}_${new Date(
+        data.age
+      ).getUTCDate()}`;
+      const monthDate = `${getMonth(new Date(data.age).getUTCMonth() + 1)}`;
+      const day = `${new Date(data.age).getUTCDate()}`;
       switch (checkTransferState(data.fromAddr, data.toAddr)) {
         case 'BURNT':
           transferData.burnt += parseFloat(data.quantity);
@@ -45,10 +63,66 @@ export function processTransferToStates(txList, prevList = null) {
             transferData.statChanged += parseFloat(data.quantity);
           }
           transferData.noOfBurntTransaction += 1;
+          if (Object.keys(transferData.dailyStats).includes(dateString)) {
+            transferData.dailyStats[dateString]['burnt'] += parseFloat(data.quantity);
+          } else {
+            transferData.dailyStats[dateString] = {
+              burnt: parseFloat(data.quantity),
+              minted: 0,
+              date: data.age,
+            };
+          }
+          //month
+
+          if (Object.keys(transferData.perMonthStats).includes(monthDate)) {
+            if (Object.keys(transferData.perMonthStats[monthDate]).includes(day)) {
+              transferData.perMonthStats[monthDate][day]['burnt'] += parseFloat(data.quantity);
+            } else {
+              transferData.perMonthStats[monthDate][day] = {
+                burnt: parseFloat(data.quantity),
+                minted: 0,
+                date: data.age,
+              };
+            }
+          } else {
+            transferData.perMonthStats[monthDate] = {};
+            transferData.perMonthStats[monthDate][day] = {
+              burnt: parseFloat(data.quantity),
+              minted: 0,
+              date: data.age,
+            };
+          }
           break;
         case 'MINTED':
           transferData.minted += parseFloat(data.quantity);
           transferData.noOfMintedTransaction += 1;
+          if (Object.keys(transferData.dailyStats).includes(dateString)) {
+            transferData.dailyStats[dateString]['minted'] += parseFloat(data.quantity);
+          } else {
+            transferData.dailyStats[dateString] = {
+              burnt: 0,
+              minted: parseFloat(data.quantity),
+              date: data.age,
+            };
+          }
+          if (Object.keys(transferData.perMonthStats).includes(monthDate)) {
+            if (Object.keys(transferData.perMonthStats[monthDate]).includes(day)) {
+              transferData.perMonthStats[monthDate][day]['minted'] += parseFloat(data.quantity);
+            } else {
+              transferData.perMonthStats[monthDate][day] = {
+                burnt: 0,
+                minted: parseFloat(data.quantity),
+                date: data.age,
+              };
+            }
+          } else {
+            transferData.perMonthStats[monthDate] = {};
+            transferData.perMonthStats[monthDate][day] = {
+              burnt: 0,
+              minted: parseFloat(data.quantity),
+              date: data.age,
+            };
+          }
           break;
         case 'TRANSFER':
           transferData.transfer += parseFloat(data.quantity);
@@ -59,6 +133,7 @@ export function processTransferToStates(txList, prevList = null) {
   } catch (e) {
     console.log(e);
   }
+
   return transferData;
 }
 

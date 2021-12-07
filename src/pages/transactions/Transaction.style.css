@@ -94,3 +94,66 @@
   width: 300px;
   height: 300px;
 }
+
+.lineChart {
+  display: flex;
+  height: 300px;
+  align-items: center;
+  margin: 40px 0 80px 0;
+  justify-content: space-between;
+}
+.lineChart div canvas {
+  height: 280px;
+}
+
+.line-header {
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.line-header h1 {
+  display: block;
+  margin: 0;
+}
+
+.dropdown {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.dropdown-text {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.dropdown-text:hover,
+.options .item:hover {
+  color: rgba(0, 0, 0, 0.8);
+}
+.dropdown-text svg {
+  fill: rgba(0, 0, 0, 0.4);
+}
+.options {
+  position: absolute;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: white;
+  font-size: 14px;
+  left: 0;
+  top: 33px;
+}
+
+.options .item {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+hr {
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}

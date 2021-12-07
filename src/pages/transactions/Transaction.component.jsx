@@ -4,11 +4,12 @@ import './Transaction.style.css';
 import Skeleton from '../../components/skeleton/Skeleton.component';
 import StatBox from '../../components/statBox/StatBox.component';
 import Pie from '../../components/charts/pie/Pie.chart';
-import BarChart from '../../components/charts/bar/Bar.chart';
+import LineChart from '../../components/charts/Line/Line';
 
 import { fetchGBETTransfer, fetchGBETTransferSummary } from '../../services/gbet/gbet.action';
 import { timeAgo } from '../../services/utils/utilis';
 import { Helmet } from 'react-helmet';
+import Dropdown from '../../components/dropdown';
 export class Transaction extends Component {
   constructor(props) {
     super(props);
@@ -21,10 +22,21 @@ export class Transaction extends Component {
           burnt: 0,
           minted: 0,
         },
+        lineChartMintedSelectedMonth: this.getMonth(new Date().getMonth() + 1),
+        lineChartBurntSelectedMonth: this.getMonth(new Date().getMonth() + 1),
       },
     };
   }
+  getMonth(idx) {
+    var objDate = new Date();
+    objDate.setDate(1);
+    objDate.setMonth(idx - 1);
 
+    var locale = 'en-us',
+      month = objDate.toLocaleString(locale, { month: 'short' });
+
+    return month;
+  }
   componentDidMount() {
     console.log('hey');
 
@@ -56,7 +68,30 @@ export class Transaction extends Component {
       });
     }
   }
+
   render() {
+    const setMintedLineSelectedMonth = (month) => {
+      this.setState((prev) => {
+        return {
+          ...prev,
+          charts: {
+            ...prev.charts,
+            lineChartMintedSelectedMonth: month,
+          },
+        };
+      });
+    };
+    const setBurntLineSelectedMonth = (month) => {
+      this.setState((prev) => {
+        return {
+          ...prev,
+          charts: {
+            ...prev.charts,
+            lineChartBurntSelectedMonth: month,
+          },
+        };
+      });
+    };
     var GBETTransactionsComp = (
       <div>
         <div style={{ display: 'flex' }}>
@@ -262,6 +297,39 @@ export class Transaction extends Component {
       100 * (parseFloat(this.props.GBETTransferSummary.burnt) / parseFloat(this.props.GBETTransferSummary.minted));
     let NameChangePer =
       100 * (parseFloat(this.props.GBETTransferSummary.nameChanged) / parseFloat(this.props.GBETTransferSummary.burnt));
+    // console.log(this.props.GBETTransferSummary.perMonthStats);
+    let lineLabel_MINTED = [];
+    let lineValue = [];
+    let lineValue_BURNT = [];
+    let lineLabel_BURNT = [];
+
+    if (this.props.GBETTransferSummary.perMonthStats) {
+      console.log('cal Nov');
+      console.log(this.props.GBETTransferSummary.perMonthStats);
+      console.log(this.state.charts.lineChartMintedSelectedMonth);
+
+      lineLabel_MINTED = this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartMintedSelectedMonth]
+        ? Object.keys(this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartMintedSelectedMonth])
+        : [];
+      lineLabel_BURNT = this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartBurntSelectedMonth]
+        ? Object.keys(this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartBurntSelectedMonth])
+        : [];
+      Object.keys(this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartBurntSelectedMonth]).map(
+        (data) => {
+          lineValue_BURNT.push(
+            this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartBurntSelectedMonth][data].burnt
+          );
+        }
+      );
+      Object.keys(this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartMintedSelectedMonth]).map(
+        (data) => {
+          lineValue.push(
+            this.props.GBETTransferSummary.perMonthStats[this.state.charts.lineChartMintedSelectedMonth][data].minted
+          );
+        }
+      );
+    }
+    const updateSelectLineChart = () => {};
     return (
       <div className='transaction-container'>
         <Helmet>
@@ -325,7 +393,39 @@ export class Transaction extends Component {
             </div>
           </div>
         </div>
+        <div className='lineChart'>
+          <div className='chart'>
+            <div className='line-header'>
+              <h1>$GBET Minted</h1>
+              <Dropdown
+                selected={this.state.charts.lineChartMintedSelectedMonth}
+                setSelected={setMintedLineSelectedMonth}
+                option={
+                  this.props.GBETTransferSummary.perMonthStats
+                    ? Object.keys(this.props.GBETTransferSummary.perMonthStats)
+                    : []
+                }
+              />
+            </div>
+            <LineChart lineLabel1={lineLabel_MINTED} lineValue1={lineValue} />
+          </div>
 
+          <div className='chart'>
+            <div className='line-header'>
+              <h1>$GBET Burnt</h1>
+              <Dropdown
+                selected={this.state.charts.lineChartBurntSelectedMonth}
+                setSelected={setBurntLineSelectedMonth}
+                option={
+                  this.props.GBETTransferSummary.perMonthStats
+                    ? Object.keys(this.props.GBETTransferSummary.perMonthStats)
+                    : []
+                }
+              />
+            </div>
+            <LineChart lineLabel1={lineLabel_BURNT} color={'red'} lineValue1={lineValue_BURNT} />
+          </div>
+        </div>
         <h1>GBET Transactions Table</h1>
         {GBETTransferTableComp}
       </div>
